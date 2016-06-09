@@ -63,6 +63,11 @@ func (r *Record) getField(fieldName string) (*recordField, error) {
 	return nil, &ErrNoSuchField{field: fieldName}
 }
 
+// GetNamespace gets the namespace of the Record
+func (r *Record) GetNamespace() string {
+	return r.n.ns
+}
+
 // GetQualified returns the datum of the specified Record field, without attempting to qualify the name
 func (r *Record) GetQualified(qualifiedName string) (interface{}, error) {
 	field, err := r.getField(qualifiedName)

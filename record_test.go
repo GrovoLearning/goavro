@@ -162,6 +162,55 @@ func TestRecordFieldUnionNullOrStringCanBeString(t *testing.T) {
 	checkError(t, err, nil)
 }
 
+func TestRecordGetNamespaceHasNamespace(t *testing.T) {
+	expectedNamespace := "somenamespace"
+
+	schema := fmt.Sprintf(`
+		{
+		  "type": "record",
+		  "name": "TestRecord",
+		  "fields": [
+		    {
+		      "name": "value",
+		      "type": "int"
+		    }
+		  ],
+		  "namespace": "%s"
+		}
+	`, expectedNamespace)
+	record, err := NewRecord(RecordSchema(schema))
+	checkErrorFatal(t, err, nil)
+
+	actualNamespace := record.GetNamespace()
+
+	if expectedNamespace != actualNamespace {
+		t.Errorf("Expected: %s; Actual: %s", expectedNamespace, actualNamespace)
+	}
+}
+
+func TestRecordGetNamespaceNoNamespace(t *testing.T) {
+	schema := `
+		{
+		  "type": "record",
+		  "name": "TestRecord",
+		  "fields": [
+		    {
+		      "name": "value",
+		      "type": "int"
+		    }
+		  ]
+		}
+	`
+	record, err := NewRecord(RecordSchema(schema))
+	checkErrorFatal(t, err, nil)
+
+	actualNamespace := record.GetNamespace()
+
+	if len(actualNamespace) != 0 {
+		t.Errorf("Expected: %d; Actual: %d", 0, len(actualNamespace))
+	}
+}
+
 func TestRecordGetFieldSchema(t *testing.T) {
 	outerSchema := `
 {
