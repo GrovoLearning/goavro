@@ -213,6 +213,31 @@ func TestRecordGetNamespaceNoNamespace(t *testing.T) {
 	}
 }
 
+func TestRecordGetName(t *testing.T) {
+	expectedName := "TestRecord"
+	schema := fmt.Sprintf(`
+		{
+		  "type": "record",
+		  "name": "%s",
+		  "fields": [
+		    {
+		      "name": "value",
+		      "type": "int"
+		    }
+		  ]
+		}
+	`, expectedName)
+
+	record, err := NewRecord(RecordSchema(schema))
+	checkErrorFatal(t, err, nil)
+
+	actualName := record.GetName()
+
+	if expectedName != actualName {
+		t.Errorf("Expected: %s; Actual: %s", expectedName, actualName)
+	}
+}
+
 func TestRecordGetSchema(t *testing.T) {
 	schema := `
 		{
