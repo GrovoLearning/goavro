@@ -68,6 +68,11 @@ func (r *Record) GetNamespace() string {
 	return r.n.ns
 }
 
+// GetName gets the name of the Record
+func (r *Record) GetName() string {
+	return r.n.n
+}
+
 // GetQualified returns the datum of the specified Record field, without attempting to qualify the name
 func (r *Record) GetQualified(qualifiedName string) (interface{}, error) {
 	field, err := r.getField(qualifiedName)
